@@ -1,60 +1,51 @@
-# Lab 2 - Teoría de la Computación y Compiladores
+# Ejercicio 3 - Algoritmo Shunting Yard
 
-Este proyecto implementa dos algoritmos fundamentales utilizados en el diseño de compiladores y teoría de lenguajes formales:
+## 📋 Descripción
+Este branch contiene la solución al **Ejercicio 3**: Implementación del algoritmo Shunting Yard para conversión de expresiones regulares de notación infija a postfija.
 
 ## 🎥 Video de Presentación
-
-Mira la explicación completa y demostración de ambos algoritmos:
-**[Video de Presentación del Proyecto](https://youtu.be/DyzjnCa10WI)**
+**[Video de Presentación del Proyecto Completo](https://youtu.be/DyzjnCa10WI)**
 
 ---
 
-## 📁 Archivos del Proyecto
+## 📁 Archivos
 
-### 1. **balanceador.py** - Verificador de Balance de Paréntesis
-   - ✅ Verifica si los paréntesis están correctamente balanceados en expresiones
-   - 🔧 Utiliza un enfoque basado en pilas (stack)
-   - 📝 Soporta paréntesis `()`, corchetes `[]` y llaves `{}`
-   - 🎯 Detecta errores con precisión y ubicación exacta
+### **shunting_yard.py** - Algoritmo Shunting Yard
+- 🔄 Convierte expresiones regulares de notación infija a postfija
+- 🧠 Implementa el algoritmo Shunting Yard de Dijkstra (1961)
+- ⚖️ Maneja precedencia y asociatividad de operadores automáticamente
+- 📊 Muestra el proceso de conversión paso a paso
+- 🔗 Inserta concatenaciones implícitas donde es necesario
 
-### 2. **shunting_yard.py** - Algoritmo Shunting Yard
-   - 🔄 Convierte expresiones regulares de notación infija a postfija
-   - 🧠 Implementa el algoritmo Shunting Yard de Dijkstra
-   - ⚖️ Maneja precedencia y asociatividad de operadores
-   - 📊 Muestra el proceso de conversión paso a paso
-
-### 3. **expresiones.txt** - Expresiones de Prueba
-   - 📋 Contiene expresiones regulares de ejemplo para testing
-   - 🧪 Utilizado por ambos programas para validación
-   - 🔍 Incluye casos complejos y casos límite
+### **expresiones.txt** - Expresiones de Prueba
+- 📋 Contiene expresiones regulares complejas para testing
+- 🧪 Casos con múltiples operadores y niveles de precedencia
+- 🎯 Expresiones que validan el manejo correcto de asociatividad
 
 ---
 
 ## 🚀 Instrucciones de Uso
 
-### Para verificar balance de paréntesis:
-```bash
-python balanceador.py
-```
-
-### Para convertir expresiones a notación postfija:
 ```bash
 python shunting_yard.py
 ```
 
+### Ejemplo de salida:
+```
+==================================================
+EXPRESIÓN 1: a(a | b)*b + a?
+==================================================
+Con concatenaciones: a.(a.|.b)*.b.+.a.?
+Proceso paso a paso:
+   1. Operando 'a' → salida: ['a']
+   2. Operador '.' → pila: ['.']
+   ...
+✓ RESULTADO FINAL: aab.|*.b+.a?.
+```
+
 ---
 
-## 🛠️ Notas de Implementación
-
-- 🎯 **Algoritmo Shunting Yard:** Requirió manejo cuidadoso de la precedencia de operadores
-- 🔗 **Concatenación implícita:** Los operadores de concatenación se insertan automáticamente donde es necesario
-- 🐛 **Manejo de errores:** Se agregó después de las pruebas iniciales que revelaron casos límite
-- 📚 **Propósito educativo:** Ambos programas muestran ejecución paso a paso para fines de aprendizaje
-- 💻 **Código limpio:** Implementación con variables en inglés y comentarios en español
-
----
-
-## ⚙️ Operadores de Expresiones Regulares
+## ⚙️ Operadores Soportados
 
 | Operador | Precedencia | Asociatividad | Descripción |
 |----------|-------------|---------------|-------------|
@@ -66,48 +57,36 @@ python shunting_yard.py
 
 ---
 
-## 🧪 Casos de Prueba
+## 🛠️ Algoritmo Implementado
 
-El archivo `expresiones.txt` contiene varios casos de prueba incluyendo:
+### **Pasos del Shunting Yard:**
+1. **Insertar concatenaciones explícitas** donde sea necesario
+2. **Procesar cada token:**
+   - Operandos → directamente a la salida
+   - `(` → push a la pila
+   - `)` → vaciar hasta encontrar `(`
+   - Operadores → aplicar reglas de precedencia
+3. **Vaciar pila restante** a la salida final
 
-- ✅ **Alternaciones simples:** Expresiones básicas con operador `|`
-- 🔄 **Paréntesis anidados:** Múltiples niveles de agrupación
-- 🎯 **Expresiones regulares complejas:** Combinaciones de múltiples operadores
-- 🐛 **Casos límite:** Expresiones que ayudaron a depurar la implementación
-- ❌ **Casos con errores:** Para validar la detección de problemas
-
-### Ejemplos de salida:
-
-**Balanceador:**
-```
-Línea 1: a(a | b)*b + a?
-✓ RESULTADO: BALANCEADO - Los paréntesis están correctamente emparejados
-```
-
-**Shunting Yard:**
-```
-EXPRESIÓN: a(a | b)*b + a?
-Con concatenaciones: a.(a.|.b)*.b.+.a.?
-✓ RESULTADO POSTFIJO: aab.|*.b+.a?.
-```
+### **Complejidad:**
+- ⚡ **Tiempo:** O(n) - procesamiento lineal
+- 💾 **Espacio:** O(n) para pila y salida
 
 ---
 
-## 🎓 Conceptos Teóricos Aplicados
+## � Casos de Prueba Destacados
 
-- 📚 **Teoría de Autómatas:** Base teórica para expresiones regulares
-- 🏗️ **Diseño de Compiladores:** Algoritmos fundamentales de parsing
-- 🔧 **Estructuras de Datos:** Implementación eficiente de pilas
-- 🧮 **Análisis Sintáctico:** Procesamiento de precedencia de operadores
-- 🎯 **Complejidad Algorítmica:** Soluciones en tiempo lineal O(n)
+- ✅ **Expresión 1:** `a(a | b)*b + a?` → `aab.|*.b+.a?.`
+- ✅ **Expresión 6:** Anidación compleja con 6 niveles de paréntesis
+- 🔧 **Manejo de concatenación:** Inserción automática de puntos
+- 🎪 **Precedencia correcta:** Operadores de alta precedencia primero
 
 ---
 
-## 👨‍💻 Información del Desarrollador
+## 🔗 Otros Ejercicios
+- **Ejercicio 1:** Branch `ejercicio-1` (Solución PDF)
+- **Ejercicio 2:** Branch `ejercicio-2` (Balanceador de Paréntesis)
+- **Proyecto Completo:** Branch `main` (Todos los ejercicios integrados)
 
-**Proyecto desarrollado como parte del curso de Teoría de la Computación y Compiladores**
-
-- 🎯 Implementación desde cero de algoritmos clásicos
-- 🧪 Testing exhaustivo con casos complejos
-- 📝 Documentación detallada del proceso
-- 🎥 Video explicativo completo disponible
+---
+**Desarrollado como parte del curso de Teoría de la Computación y Compiladores**
