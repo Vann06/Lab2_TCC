@@ -17,42 +17,29 @@ RIGHT_ASSOCIATIVE = {'*', '+', '?'}
 
 def insert_concatenation(expression):
     """
-    Inserta puntos de concatenación donde sean necesarios
-    Maneja caracteres escapados con backslash y espacios
+    Inserta '.' de concatenación donde corresponde.
+    Se eliminan todos los espacios antes de procesar.
     """
-    result = ''
-    i = 0
+    # 1) quitar espacios
+    expression = expression.replace(' ', '')
     
-    while i < len(expression):
-        current_char = expression[i]
-        result += current_char
-        
-        # Manejar caracteres escapados con backslash
-        if current_char == '\\' and i + 1 < len(expression):
-            i += 1  # saltar el siguiente caracter
-            result += expression[i]
-            current_char = expression[i]  # actualizar para las verificaciones
-        
-        # Verificar si necesitamos insertar concatenación
+    result = ''
+    for i, current in enumerate(expression):
+        result += current
+
         if i + 1 < len(expression):
             next_char = expression[i + 1]
-            
-            # Saltamos espacios en blanco
-            if next_char == ' ':
-                i += 1
-                continue
-                
-            # Reglas para insertar punto de concatenación
+
             if (
-                current_char not in '(|' and  # actual no es ( ni |
-                next_char not in '|)*+?)' and  # siguiente no es operador ni )
-                next_char != ' '  # siguiente no es espacio
+                (current.isalnum() or current in {'ε', '*', '+', '?', ')'})
+                and
+                (next_char.isalnum() or next_char == 'ε' or next_char == '(')
             ):
                 result += '.'
-        
-        i += 1
-    
+
     return result
+
+
 
 
 def to_postfix(expression):
